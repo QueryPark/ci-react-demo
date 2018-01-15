@@ -1,0 +1,41 @@
+.App-Header {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 30px);
+  padding: 0 15px;
+  background-color: #222;
+  height: 50px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-Title {
+  font-size: 1.5em;
+}
+
+.App-Main {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 50px);
+  top: 50px;
+}
+
+.App-API {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.App-API p {
+  margin-right: 25px;
+}
+
+.App-API input {
+  font-size: 0.8em;
+  text-align: center;
+  width: 300px;
+}

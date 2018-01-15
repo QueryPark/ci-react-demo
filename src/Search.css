@@ -1,0 +1,10 @@
+.Search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Search-Dropdown {
+  width: 250px;
+}
