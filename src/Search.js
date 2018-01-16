@@ -7,7 +7,7 @@ import 'react-select/dist/react-select.css'
 import './Search.css'
 
 const { alert, fetch, Headers } = window
-const QP_URL_ROOT = 'http://api.querypark.com/v1/'
+const QP_URL_ROOT = 'https://api.querypark.com/v1/'
 
 const createNewHeaders = (apiKey) => new Headers({
   'Content-Type': 'application/json',
