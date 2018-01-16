@@ -17,6 +17,20 @@
   border-radius: 5px;
 }
 
+.WellSummary-Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.WellSummary-Header > div {
+  margin-left: 25px;
+}
+
+.WellSummary-Header > div > label {
+  cursor: pointer;
+}
+
 .WellSummary-TableWrap {
   height: 400px;
   width: 300px;
