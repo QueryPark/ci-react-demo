@@ -22,7 +22,7 @@ class App extends Component {
 
   updateKey (event) {
     const key = event.target.value
-    
+
     this.setState({ API_KEY: key })
   }
 

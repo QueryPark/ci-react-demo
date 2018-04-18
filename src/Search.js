@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { map } from 'lodash'
+import { map, debounce } from 'lodash'
 
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import './Search.css'
-
-import { debounce } from 'lodash'
 
 const { alert, fetch, Headers } = window
 const QP_URL_ROOT = 'https://api.querypark.com/v1/'
