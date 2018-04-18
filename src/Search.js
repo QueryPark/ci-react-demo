@@ -6,6 +6,8 @@ import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import './Search.css'
 
+import { debounce } from 'lodash'
+
 const { alert, fetch, Headers } = window
 const QP_URL_ROOT = 'https://api.querypark.com/v1/'
 
@@ -75,24 +77,21 @@ const Search = ({
   }
 
   return (
-    <section className='Search'>
-      <h1>Search for a UWI</h1>
-      <Select.Async className='Search-Dropdown'
-        autoload={false}
-        multi={false}
-        backspaceRemoves={false}
+    <Select.Async className='Search-Dropdown'
+      autoload={false}
+      multi={false}
+      backspaceRemoves={false}
 
-        value={searchValue}
-        valueKey='id' labelKey='uwi'
-        onChange={onChange}
+      value={searchValue}
+      valueKey='id' labelKey='uwi'
+      onChange={debounce(onChange, 20)}
 
-        loadOptions={getWells}
-        // remove filtering (this is already done by the api)
-        filterOptions={options => options}
+      loadOptions={getWells}
+      // remove filtering (this is already done by the api)
+      filterOptions={options => options}
 
-        searchPromptText='Search for a uwi!'
-      />
-    </section>
+      searchPromptText='Search for a uwi!'
+    />
   )
 }
 
