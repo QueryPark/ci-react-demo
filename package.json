@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "prop-types": "^15.6.0",
     "qp-well-parser": "latest",
     "react": "^16.2.0",
