@@ -4,11 +4,15 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { css } from 'emotion'
 
-import './Content.css'
+const style = css`
+  display: relative;
+  margin: 30px 10px;
+`
 
 const Content = ({ children }) => (
-  <div className='QP-content'>
+  <div className={style}>
     { children }
   </div>
 )

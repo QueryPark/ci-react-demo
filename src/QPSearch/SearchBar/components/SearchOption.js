@@ -4,13 +4,47 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import './SearchOption.css'
+import { css } from 'emotion'
 
 import {
-  Field,
-  Pill
-} from '../'
+  Pill,
+  Field
+} from '../../components'
+
+import { COLORS } from '../../theme'
+
+const style = css`
+  display: flex;
+  flex-direction: column;
+  
+  box-sizing: border-box;
+  border-left: 5px solid transparent;
+  padding: 10px;
+  margin-bottom: 12px;
+
+  &:hover {
+  border-left: 5px solid ${COLORS.PRIMARY};
+  background-color: ${COLORS.GREY7};
+  }
+
+  & > div {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin: 0 0 8px;
+  }
+
+  & > div:last-child {
+    margin: 0;
+  }
+`
+
+const pillbox = css`
+  display: flex;
+  justify-content: flex-end;
+`
 
 const mapAttributes = (attributes) => {
   const pills = []
@@ -23,16 +57,16 @@ const mapAttributes = (attributes) => {
     let regionPill
     switch (region) {
       case 'AB':
-        regionPill = <Pill key='ab' color='#00278B'>AB</Pill>
+        regionPill = <Pill key='ab' options={{ backgroundColor: '#00278B' }}>AB</Pill>
         break
     }
     regionPill && pills.push(regionPill)
   }
 
   if (isLatest) {
-    pills.push(<Pill key='latest' color='#24C66F'>Latest</Pill>)
+    pills.push(<Pill key='latest' options={{ backgroundColor: '#24C66F' }}>Latest</Pill>)
   } else {
-    pills.push(<Pill key='historical' color='#C62424'>Historical</Pill>)
+    pills.push(<Pill key='historical' options={{ backgroundColor: '#C62424' }}>Historical</Pill>)
   }
 
   return pills
@@ -56,22 +90,25 @@ const SearchOption = ({
 
   const pills = mapAttributes(data.attributes)
 
+  const primaryHeaderOptions = { oValue: { weight: 500 } }
+  const govIdOptions = { textAlign: 'right' }
+
   return (
-    <div ref={innerRef} {...innerProps} className='QP-so-container'
+    <div ref={innerRef} {...innerProps} className={style}
       onClick={() => selectOption(data)}
     >
-      <div className='QP-so-row'>
+      <div>
         <Field label={primaryHeader.label} value={primaryHeader.value}
-          valueClass='QP-so-field-heavy'
+          options={primaryHeaderOptions}
         />
         <Field label={govId.label} value={govId.value}
-          valueClass='QP-so-field-light QP-so-field-right'
+          options={govIdOptions}
         />
       </div>
-      <div className='QP-so-row'>
+      <div>
         <Field label={subheader.label} value={subheader.value} />
         <Field label={surfaceLocation.label} value={surfaceLocation.value} />
-        <div className='QP-so-pillbox'>
+        <div className={pillbox}>
           { pills }
         </div>
       </div>

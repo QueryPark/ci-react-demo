@@ -9,10 +9,13 @@ import { map, debounce } from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
 
 import {
-  SearchOption,
+  SearchOption
+} from './components'
+
+import {
   Button,
   Field
-} from './components'
+} from '../components'
 
 import wellParser from 'qp-well-parser'
 

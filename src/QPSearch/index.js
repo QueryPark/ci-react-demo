@@ -19,7 +19,7 @@ class QPSearch extends Component {
     super()
 
     this.state = {
-      header: <p>Well Search</p>,
+      header: <h1>Well Search</h1>,
       footer: <p />
     }
 
