@@ -80,11 +80,11 @@ class QPSearchBar extends Component {
         throw new Error(json.message)
       }
       const wells = json.payload.wells
+      const options = map(wells, wellParser())
 
       this.props.updateFooter(<p style={{ fontWeight: 500 }}>
         {`${wells.length} wells found in ${json.meta.took / 1000} seconds.`}
       </p>)
-      const options = map(wells, wellParser())
       return options
     } catch (err) {
       console.log(err)
@@ -106,7 +106,9 @@ class QPSearchBar extends Component {
             Option: SearchOption
           }}
           styles={{
-            menu: (base, style) => ({})
+            menu: (base, style) => ({
+              margin: '5px 0 0'
+            })
           }}
 
           backspaceRemovesValue={false}

@@ -5,12 +5,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { map } from 'lodash'
-
 import './SearchOption.css'
 
-import Field from './Field/Field'
-import Pill from './Pill/Pill'
+import {
+  Field,
+  Pill
+} from '../'
 
 const mapAttributes = (attributes) => {
   const pills = []
