@@ -1,0 +1,26 @@
+.QP-so-pill {
+  color: #FFF;
+
+  height: 15px;
+  padding: 0 5px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+
+  margin-right: 5px;
+}
+
+.QP-so-pill:last-child {
+  margin-right: 0;
+}
+
+.QP-so-pill p {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 500;
+
+  margin: 0;
+  padding: 0;
+}

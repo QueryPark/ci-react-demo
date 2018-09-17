@@ -7,9 +7,16 @@ import PropTypes from 'prop-types'
 import { map, debounce } from 'lodash'
 
 import AsyncSelect from 'react-select/lib/Async'
-import { components } from 'react-select'
 
-const { alert, fetch, Headers } = window
+import {
+  SearchOption,
+  Button,
+  Field
+} from './components'
+
+import wellParser from 'qp-well-parser'
+
+const { fetch, Headers } = window
 const QP_URL_ROOT = 'https://api.querypark.com/v1/'
 
 const createNewHeaders = (apiKey) => new Headers({
@@ -21,33 +28,42 @@ class QPSearchBar extends Component {
   constructor (props) {
     super(props)
 
-    this.headers = createNewHeaders(props.API_KEY)
-
     this.state = {
-      searchValue: '',
-      wells: {}
+      well: {}
     }
 
-    this.setSearchValue = this.setSearchValue.bind(this)
+    this.headers = createNewHeaders(props.API_KEY)
     this.onChange = this.onChange.bind(this)
     this.getWells = this.getWells.bind(this)
+    this.reset = this.reset.bind(this)
   }
 
-  setSearchValue = (newValue) => {
-    this.setState({ searchValue: newValue })
+  reset () {
+    this.setState({
+      well: {}
+    })
+
+    this.props.updateHeader(<p>Well Search</p>)
+    this.props.updateFooter(<p />)
   }
 
-  onChange = async (value) => {
-    this.setSearchValue(value)
+  onChange (chosenWell) {
+    const {
+      updateHeader,
+      updateFooter
+    } = this.props
 
-    const chosenWell = JSON.stringify(
-      this.state.wells[value.id]
-    )
+    updateHeader(<Field
+      label={chosenWell.primaryHeader.label}
+      value={chosenWell.primaryHeader.value}
+    />)
 
-    window.alert(chosenWell)
+    updateFooter(<Button onClick={() => this.reset()}>Reset Search</Button>)
+
+    this.setState({ well: chosenWell })
   }
 
-  getWells = async (input) => {
+  async getWells (input) {
     const url = QP_URL_ROOT + 'suggest'
     const data = { query: input, size: 10 }
 
@@ -63,19 +79,12 @@ class QPSearchBar extends Component {
       if (!json.ok) {
         throw new Error(json.message)
       }
+      const wells = json.payload.wells
 
-      const options = []
-      const wells = {}
-      json.payload.wells.forEach(well => {
-        const id = well.Uuid
-
-        options.push({ id, uwi: well.UWI })
-        wells[id] = well
-      })
-
-      this.setState({ wells })
-
-      console.log(options)
+      this.props.updateFooter(<p style={{ fontWeight: 500 }}>
+        {`${wells.length} wells found in ${json.meta.took / 1000} seconds.`}
+      </p>)
+      const options = map(wells, wellParser())
       return options
     } catch (err) {
       console.log(err)
@@ -84,54 +93,43 @@ class QPSearchBar extends Component {
   }
 
   render () {
-    const {
-      searchValue
-    } = this.state
+    const { well } = this.state
 
-    return (
-      <AsyncSelect
-        components={{
-          Option: ({ children, innerProps }) => (
-            <div {...innerProps}>
-              Hi jesse { children }
-            </div>
-          )
-        }}
+    if (well.uuid) {
+      return (
+        JSON.stringify(well)
+      )
+    } else {
+      return (
+        <AsyncSelect
+          components={{
+            Option: SearchOption
+          }}
+          styles={{
+            menu: (base, style) => ({})
+          }}
 
-        styles={{
-          menu: (base, style) => ({})
-        }}
+          backspaceRemovesValue={false}
 
-        // className='Search-Dropdown'
-        // autoload={false}
-        // multi={false}
-        backspaceRemoves={false}
-  
-        // inputValue={searchValue}
+          getOptionLabel={(option) => option.primaryHeader.value}
+          getOptionValue={(option) => option.uuid}
 
-        getOptionLabel={(option) => {
-          console.log(option)
-          return option.uwi
-        }}
-
-        getOptionValue={(option) => {
-          console.log(option)
-          return option.uwi
-        }}
-
-        cacheOptions
-
-        loadOptions={this.getWells}
-        // remove filtering (this is already done by the api)
-        filterOption={null}
-      />
-    )
+          cacheOptions
+          loadOptions={this.getWells}
+          onChange={this.onChange}
+          // remove filtering (this is already done by the api)
+          filterOption={null}
+        />
+      )
+    }
   }
-
 }
 
 QPSearchBar.propTypes = {
-  API_KEY: PropTypes.string.isRequired
+  API_KEY: PropTypes.string.isRequired,
+
+  updateHeader: PropTypes.func.isRequired,
+  updateFooter: PropTypes.func.isRequired
 }
 
 export default QPSearchBar

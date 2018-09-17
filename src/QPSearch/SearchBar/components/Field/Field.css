@@ -1,0 +1,30 @@
+.QP-so-field h1 {
+  text-transform: uppercase;
+  line-height: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #696969;
+  margin: 0 0 5px;
+  padding: 0;
+}
+
+.QP-so-field p {
+  text-transform: uppercase;
+  line-height: 14px;
+  font-size: 14px;
+  color: #3A3A3A;
+  margin: 0;
+  padding: 0;
+}
+
+.QP-so-field-heavy {
+  font-weight: 500;
+}
+
+.QP-so-field-light {
+  color: #696969 !important;
+}
+
+.QP-so-field-right {
+  text-align: right;
+}

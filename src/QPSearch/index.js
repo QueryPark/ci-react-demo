@@ -19,8 +19,15 @@ class QPSearch extends Component {
     super()
 
     this.state = {
-      query: ''
+      header: <p>Well Search</p>,
+      footer: <p />
     }
+
+    this.updateState = this.updateState.bind(this)
+  }
+
+  updateState (key) {
+    return (value) => this.setState({ [key]: value })
   }
 
   render () {
@@ -28,16 +35,25 @@ class QPSearch extends Component {
       API_KEY
     } = this.props
 
+    const {
+      header,
+      footer
+    } = this.state
+
     return (
       <Container>
         <Header>
-          Header Child Component Here
+          { header }
         </Header>
         <Content>
-          <SearchBar API_KEY={API_KEY} />
+          <SearchBar
+            API_KEY={API_KEY}
+            updateHeader={this.updateState('header')}
+            updateFooter={this.updateState('footer')}
+          />
         </Content>
         <Footer>
-          Footer Child Component Here
+          { footer }
         </Footer>
       </Container>
     )
