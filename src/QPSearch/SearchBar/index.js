@@ -2,22 +2,19 @@
 
 // This component handles searching
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { map, debounce } from 'lodash'
+import { css } from 'emotion'
+import { assign, map } from 'lodash'
+import wellParser from 'qp-well-parser'
 
 import AsyncSelect from 'react-select/lib/Async'
 
 import {
-  SearchOption
+  SearchOption,
+  ChosenWell,
+  WellsFound
 } from './components'
-
-import {
-  Button,
-  Field
-} from '../components'
-
-import wellParser from 'qp-well-parser'
 
 const { fetch, Headers } = window
 const QP_URL_ROOT = 'https://api.querypark.com/v1/'
@@ -31,39 +28,46 @@ class QPSearchBar extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      well: {}
+    this.defaultState = {
+      well: {},
+      showDetails: false
     }
+
+    this.state = assign({}, this.defaultState)
+    this.selectRef = null
 
     this.headers = createNewHeaders(props.API_KEY)
     this.onChange = this.onChange.bind(this)
     this.getWells = this.getWells.bind(this)
     this.reset = this.reset.bind(this)
+    this.chosenWellHeader = this.chosenWellHeader.bind(this)
   }
 
   reset () {
-    this.setState({
-      well: {}
-    })
-
-    this.props.updateHeader(<p>Well Search</p>)
+    this.setState(this.defaultState)
+    this.props.updateHeader(<h1>Well Search</h1>)
     this.props.updateFooter(<p />)
   }
 
-  onChange (chosenWell) {
-    const {
-      updateHeader,
-      updateFooter
-    } = this.props
-
-    updateHeader(<Field
-      label={chosenWell.primaryHeader.label}
-      value={chosenWell.primaryHeader.value}
+  chosenWellHeader (chosenWell, showDetails = false) {
+    this.props.updateHeader(<ChosenWell.Header well={chosenWell}
+      clickDetails={() => {
+        const showDetails = !this.state.showDetails
+        this.setState({ showDetails })
+        this.chosenWellHeader(chosenWell, showDetails)
+      }}
+      showDetails={showDetails}
     />)
+  }
 
-    updateFooter(<Button onClick={() => this.reset()}>Reset Search</Button>)
+  onChange (chosenWell) {
+    this.chosenWellHeader(chosenWell)
+    this.props.updateFooter(<ChosenWell.Footer reset={this.reset} />)
 
-    this.setState({ well: chosenWell })
+    this.setState({
+      well: chosenWell,
+      previousInput: this.state.inputValue
+    })
   }
 
   async getWells (input) {
@@ -85,9 +89,7 @@ class QPSearchBar extends Component {
       const wells = json.payload.wells
       const options = map(wells, wellParser())
 
-      this.props.updateFooter(<p style={{ fontWeight: 500 }}>
-        {`${wells.length} wells found in ${json.meta.took / 1000} seconds.`}
-      </p>)
+      this.props.updateFooter(<WellsFound json={json} />)
       return options
     } catch (err) {
       console.log(err)
@@ -96,15 +98,30 @@ class QPSearchBar extends Component {
   }
 
   render () {
-    const { well } = this.state
-
+    const { well, showDetails } = this.state
+    // Debouncing the getWells function prevents the api from sending queries
+    // every key press. For example, a typical user will type more than 2-3
+    // characters before the search is even relevant, so we avoid wasting
+    // credits on intermediate searches
+    // const loadOptions = debounce(this.getWells, 150)
     if (well.uuid) {
       return (
-        JSON.stringify(well)
+        <Fragment>
+          {
+            showDetails
+              ? <ChosenWell.Details well={well} />
+              : <ChosenWell well={well} />
+          }
+        </Fragment>
       )
     } else {
+      const searchStyle = css`
+        margin: 30px 10px;
+      `
+
       return (
         <AsyncSelect
+          className={searchStyle}
           components={{
             Option: SearchOption
           }}

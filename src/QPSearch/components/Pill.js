@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'emotion'
-import { assign } from 'lodash'
+import { merge } from 'lodash'
 
 import { COLORS } from '../theme'
 
@@ -18,7 +18,7 @@ const Pill = ({
   children,
   options
 }) => {
-  options = assign({}, defaultOptions, options)
+  options = merge({}, defaultOptions, options)
 
   const style = css`
     background-color: ${options.backgroundColor};

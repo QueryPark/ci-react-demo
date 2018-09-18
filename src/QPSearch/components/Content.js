@@ -8,7 +8,6 @@ import { css } from 'emotion'
 
 const style = css`
   display: relative;
-  margin: 30px 10px;
 `
 
 const Content = ({ children }) => (

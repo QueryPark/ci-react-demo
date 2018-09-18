@@ -5,14 +5,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'emotion'
+import { merge } from 'lodash'
 
 import { COLORS } from '../theme'
 
-const Button = ({
-  onClick, children,
-  color, bgColor,
-  hoverColor, hoverBgColor
-}) => {
+const defaultOptions = {
+  color: COLORS.GREY1,
+  backgroundColor: COLORS.GREY6,
+  hoverColor: COLORS.GREY1,
+  hoverBackgroundColor: COLORS.GREY5
+}
+
+const Button = ({ onClick, children, options }) => {
+  const {
+    color,
+    backgroundColor,
+    hoverColor,
+    hoverBackgroundColor
+  } = merge({}, defaultOptions, options)
+
   const style = css`
     height: 30px;
 
@@ -20,15 +31,15 @@ const Button = ({
     font-weight: 500;
     text-transform: uppercase;
 
-    color: ${color || COLORS.GREY1};
-    background-color: ${bgColor || COLORS.GREY6};
+    color: ${color};
+    background-color: ${backgroundColor};
     
     border: none;
     border-radius: 5px;
 
     &:hover {
-      color: ${hoverColor || COLORS.GREY1};
-      background-color: ${hoverBgColor || COLORS.GREY5};
+      color: ${hoverColor};
+      background-color: ${hoverBackgroundColor};
     }
   `
 
@@ -40,11 +51,7 @@ const Button = ({
 Button.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.string,
-
-  color: PropTypes.string,
-  bgColor: PropTypes.string,
-  hoverColor: PropTypes.string,
-  hoverBgColor: PropTypes.string
+  options: PropTypes.object
 }
 
 export default Button

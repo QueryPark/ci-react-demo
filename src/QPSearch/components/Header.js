@@ -10,7 +10,7 @@ import { COLORS } from '../theme'
 
 const style = css`
   height: 30px;
-  padding: 10px 25px;
+  padding: 10px;
 
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -20,6 +20,7 @@ const style = css`
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   & h1 {
     font-size: 20px;

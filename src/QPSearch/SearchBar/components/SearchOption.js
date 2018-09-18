@@ -7,9 +7,10 @@ import PropTypes from 'prop-types'
 import { css } from 'emotion'
 
 import {
-  Pill,
   Field
 } from '../../components'
+
+import Pillbox from './Pillbox'
 
 import { COLORS } from '../../theme'
 
@@ -41,37 +42,6 @@ const style = css`
   }
 `
 
-const pillbox = css`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const mapAttributes = (attributes) => {
-  const pills = []
-  const {
-    region,
-    isLatest
-  } = attributes
-
-  if (region) {
-    let regionPill
-    switch (region) {
-      case 'AB':
-        regionPill = <Pill key='ab' options={{ backgroundColor: '#00278B' }}>AB</Pill>
-        break
-    }
-    regionPill && pills.push(regionPill)
-  }
-
-  if (isLatest) {
-    pills.push(<Pill key='latest' options={{ backgroundColor: '#24C66F' }}>Latest</Pill>)
-  } else {
-    pills.push(<Pill key='historical' options={{ backgroundColor: '#C62424' }}>Historical</Pill>)
-  }
-
-  return pills
-}
-
 const SearchOption = ({
   innerRef, innerProps,
 
@@ -87,8 +57,6 @@ const SearchOption = ({
     govId,
     surfaceLocation
   } = data
-
-  const pills = mapAttributes(data.attributes)
 
   const primaryHeaderOptions = { oValue: { weight: 500 } }
   const govIdOptions = { textAlign: 'right' }
@@ -108,9 +76,7 @@ const SearchOption = ({
       <div>
         <Field label={subheader.label} value={subheader.value} />
         <Field label={surfaceLocation.label} value={surfaceLocation.value} />
-        <div className={pillbox}>
-          { pills }
-        </div>
+        <Pillbox attributes={data.attributes} />
       </div>
     </div>
   )
