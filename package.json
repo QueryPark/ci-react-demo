@@ -1,15 +1,16 @@
 {
   "name": "ci-react-demo",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
+    "emotion": "^9.2.9",
     "lodash": "^4.17.5",
     "prop-types": "^15.6.0",
-    "qp-well-parser": "latest",
+    "qp-well-parser": "^2.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17",
-    "react-select": "^1.2.1"
+    "react-scripts": "^1.1.5",
+    "react-select": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "4.5.0",
