@@ -33,7 +33,7 @@ const Container = ({ children }) => (
 )
 
 Container.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.array
 }
 
 export default Container

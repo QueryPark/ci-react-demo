@@ -28,6 +28,8 @@ const mapAttributes = (attributes) => {
       case 'AB':
         regionPill = <Pill key='ab' options={{ backgroundColor: '#00278B' }}>AB</Pill>
         break
+      default:
+        break
     }
     regionPill && pills.push(regionPill)
   }
