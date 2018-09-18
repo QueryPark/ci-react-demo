@@ -66,7 +66,7 @@ class App extends Component {
   constructor () {
     super()
 
-    this.state = { API_KEY: 'f67903a8-99fd-424d-8d27-844872307d42' }
+    this.state = { API_KEY: '' }
     this.updateKey = this.updateKey.bind(this)
   }
 
