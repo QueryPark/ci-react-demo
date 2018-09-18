@@ -116,7 +116,7 @@ class QPSearchBar extends Component {
       )
     } else {
       const searchStyle = css`
-        margin: 30px 10px;
+        margin: 10px;
       `
 
       return (
@@ -132,6 +132,12 @@ class QPSearchBar extends Component {
           }}
 
           backspaceRemovesValue={false}
+
+          onInputChange={(val, action) => {
+            if (action.action === 'input-blur') {
+              this.props.updateFooter(<p />)
+            }
+          }}
 
           getOptionLabel={(option) => option.primaryHeader.value}
           getOptionValue={(option) => option.uuid}
