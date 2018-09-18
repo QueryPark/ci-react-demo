@@ -9,8 +9,9 @@ import { css } from 'emotion'
 import { COLORS } from '../theme'
 
 const style = css`
-  width: 500px;
   position: relative;
+  width: 100%;
+  max-width: 500px;
 
   box-shadow: 0 2px 6px 0 ${COLORS.GREY6};
   border-radius: 10px;

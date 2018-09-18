@@ -11,11 +11,11 @@ const style = css`
 `
 
 const WellsFound = ({ json: {
-  meta: { took },
+  meta: { time },
   payload: { wells: { length } }
 } }) => (
   <p className={style}>
-    {`${length} wells found in ${took / 1000} seconds.`}
+    {`${length} wells found in ${time / 1000} seconds.`}
   </p>
 )
 
