@@ -5,8 +5,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'emotion'
-import { assign, map } from 'lodash'
-import wellParser from 'qp-well-parser'
+import { assign } from 'lodash'
+import WellParser from 'qp-well-parser'
 
 import AsyncSelect from 'react-select/lib/Async'
 
@@ -15,6 +15,8 @@ import {
   ChosenWell,
   WellsFound
 } from './components'
+
+const wellParser = WellParser()
 
 const { fetch, Headers } = window
 const QP_URL_ROOT = 'https://api.querypark.com/v1/'
@@ -87,12 +89,22 @@ class QPSearchBar extends Component {
         throw new Error(json.message)
       }
       const wells = json.payload.wells
-      const options = map(wells, wellParser())
+      const options = []
 
-      this.props.updateFooter(<WellsFound json={json} />)
+      for (let i = 0; i < wells.length; i++) {
+        try {
+          const parsedWell = wellParser(wells[i])
+          options.push(parsedWell)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      this.props.updateFooter(<WellsFound json={json} length={options.length} />)
       return options
     } catch (err) {
       console.log(err)
+      return []
       // handleError(err.message)
     }
   }

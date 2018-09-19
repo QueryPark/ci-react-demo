@@ -10,17 +10,15 @@ const style = css`
   font-weight: 500;
 `
 
-const WellsFound = ({ json: {
-  meta: { time },
-  payload: { wells: { length } }
-} }) => (
+const WellsFound = ({ json: { meta: { time } }, length }) => (
   <p className={style}>
     {`${length} wells found in ${time / 1000} seconds.`}
   </p>
 )
 
 WellsFound.propTypes = {
-  json: PropTypes.object.isRequired
+  json: PropTypes.object.isRequired,
+  length: PropTypes.number.isRequired
 }
 
 export default WellsFound
