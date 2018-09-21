@@ -1,3 +1,3 @@
-# ci-react-demo
+DEPRECATED
 
-A demo showing Query Park usage (v1)
+See [QueryPark UIKit](https://github.com/QueryPark/UIKit)
